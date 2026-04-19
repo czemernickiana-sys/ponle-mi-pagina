@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANITAS STORE</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #fff1f2;
+            padding: 20px;
+        }
+.container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+.card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid #fbcfe8;
+        }
+        h1 {
+            color: #db2777;
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #1f2937;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            color: #374151;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+.mini-label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #374151;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+.label-rosa {
+            color: #db2777;
+            font-weight: bold;
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #f9a8d4;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            height: 38px;
+        }
+        textarea {
+            height: auto;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #ec4899;
+        }
+        input[readonly] {
+            background: #fdf2f8;
+            color: #be185d;
+            font-weight: bold;
+        }
+        button {
+            background: #ec4899;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #db2777;
+        }
+.btn-secundario {
+            background: #f9a8d4;
+            color: #831843;
+            font-size: 12px;
+            padding: 6px 12px;
+            margin-bottom: 12px;
+        }
+    .btn-secundario:hover {
+            background: #f472b6;
+        }
+.grid-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+            align-items: end;
+        }
+.grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+            align-items: end;
+        }
+.grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+            align-items: end;
+        }
+.grid-hs {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+            align-items: end;
+        }
+.box-aduana {
+            background: #fce7f3;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #f9a8d4;
+            margin-bottom: 12px;
+        }
+.box-cif {
+            background: #fbcfe8;
+            padding: 16px;
+            border-radius: 8px;
+            border: 2px solid #f472b6;
+            margin-bottom: 12px;
+        }
+.box-final-usd {
+            background: #f9a8d4;
+            padding: 16px;
+            border-radius: 8px;
+            border: 3px solid #ec4899;
+            margin-bottom: 12px;
+        }
+.box-final-usd input {
+            height: 45px;
+            font-size: 18px;
+        }
+.box-bs {
+            background: #e0f2fe;
+            padding: 16px;
+            border-radius: 8px;
+            border: 2px solid #7dd3fc;
+            margin-bottom: 12px;
+        }
+.box-ars {
+            background: #dcfce7;
+            padding: 16px;
+            border-radius: 8px;
+            border: 2px solid #86efac;
+            margin-bottom: 12px;
+        }
+        #imgPreview {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border: 2px solid #fbcfe8;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto 12px auto;
+        }
+.hidden { display: none; }
+.divider {
+            border-top: 3px solid #f9a8d4;
+            margin: 24px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ANITAS STORE</h1>
+
+        <div class="card">
+            <h2>1. Datos del Producto</h2>
+
+            <img id="imgPreview" class="hidden">
+
+            <div id="foto-container">
+                <label id="label-foto">URL de Foto</label>
+                <input id="foto" type="url" placeholder="https://img.alicdn.com/..." oninput="mostrarFoto(); guardarDato('foto')">
+            </div>
+
+            <button id="btn-cambiar-foto" class="btn-secundario hidden" onclick="editarFoto()">Cambiar foto</button>
+
+            <label>Nombre producto</label>
+            <input id="nombre" type="text" placeholder="Ejemplo: Conjunto niña 2 pzas" oninput="guardarDato('nombre')">
+
+            <label>Link 1688/Taobao</label>
+            <input id="link" type="url" placeholder="https://detail.1688.com/..." oninput="guardarDato('link')">
+
+            <label>Detalles</label>
+            <textarea id="detalles" rows="3" placeholder="Color, talla, material, etc..." oninput="guardarDato('detalles')"></textarea>
+
+            <div class="divider"></div>
+
+            <label>Medida de producto en cm</label>
+            <div class="grid-4">
+                <div class="mini-label">Largo cm</div>
+                <div class="mini-label">Ancho cm</div>
+                <div class="mini-label">Alto cm</div>
+                <div class="label-rosa">Total de piezas por metro cúbico</div>
+                <input id="largo_cm" type="text" placeholder="0,0" oninput="sincronizarMedida('largo', 'cm'); guardarDato('largo_cm')">
+                <input id="ancho_cm" type="text" placeholder="0,0" oninput="sincronizarMedida('ancho', 'cm'); guardarDato('ancho_cm')">
+                <input id="alto_cm" type="text" placeholder="0,0" oninput="sincronizarMedida('alto', 'cm'); guardarDato('alto_cm')">
+                <input id="caben_cm" type="text" placeholder="0" readonly>
+            </div>
+
+            <label>Medida de producto en milímetros</label>
+            <div class="grid-4">
+                <div class="mini-label">Largo mm</div>
+                <div class="mini-label">Ancho mm</div>
+                <div class="mini-label">Alto mm</div>
+                <div class="label-rosa">Total de piezas por metro cúbico</div>
+                <input id="largo_mm" type="text" placeholder="0" oninput="sincronizarMedida('largo', 'mm'); guardarDato('largo_mm')">
+                <input id="ancho_mm" type="text" placeholder="0" oninput="sincronizarMedida('ancho', 'mm'); guardarDato('ancho_mm')">
+                <input id="alto_mm" type="text" placeholder="0" oninput="sincronizarMedida('alto', 'mm'); guardarDato('alto_mm')">
+                <input id="caben_mm" type="text" placeholder="0" readonly>
+            </div>
+
+            <div class="box-aduana">
+                <label>Código Aduana</label>
+                <div class="grid-hs">
+                    <div class="mini-label">HS CODE</div>
+                    <div class="mini-label">DETALLE A TENER EN CUENTA</div>
+                    <input id="hs_code" type="text" oninput="guardarDato('hs_code')">
+                    <input id="detalle_aduana" type="text" oninput="guardarDato('detalle_aduana')">
+                </div>
+            </div>
+
+            <label>Precio Final de Envío - Todo Incluido</label>
+            <input id="precio_final" type="text" placeholder="Ej: 150,00" oninput="calcularEnvioPieza(); guardarDato('precio_final')" onblur="formatearMoneda('precio_final')">
+
+            <label>Precio Sin Impuestos ni Recargos</label>
+            <input id="precio_base" type="text" placeholder="Ej: 100,00" oninput="guardarDato('precio_base')" onblur="formatearMoneda('precio_base')">
+
+            <label>Peso del Producto</label>
+            <div class="grid-2">
+                <div class="mini-label">Peso en gramos</div>
+                <div class="mini-label">Peso en kilos</div>
+                <input id="peso_gr" type="text" placeholder="0,0" oninput="convertirPeso('gr'); guardarDato('peso_gr')">
+                <input id="peso_kg" type="text" placeholder="0,0000" oninput="convertirPeso('kg'); guardarDato('peso_kg')">
+            </div>
+
+            <label>Precio del Producto FOB</label>
+            <div class="grid-2">
+                <div class="mini-label">Precio en Yuanes ¥</div>
+                <div class="mini-label">Precio en Dólares $</div>
+                <input id="precio_yuan" type="text" placeholder="Ej: 0,12" oninput="convertirMoneda('yuan'); guardarDato('precio_yuan')" onblur="formatearMoneda('precio_yuan')">
+                <input id="precio_usd" type="text" placeholder="Ej: 0,02" oninput="convertirMoneda('usd'); guardarDato('precio_usd')" onblur="formatearMoneda('precio_usd')">
+            </div>
+
+            <label>Costo de Envío por Producto</label>
+            <div class="grid-2">
+                <div class="mini-label">Precio Final Envío 1m³ $</div>
+                <div class="mini-label">Costo Envío por Pieza $</div>
+                <input id="precio_final_display" type="text" placeholder="0,00" readonly>
+                <input id="costo_envio_pieza" type="text" placeholder="0,0000" readonly>
+            </div>
+
+            <label>Costo Total del Producto</label>
+            <div class="grid-3">
+                <div class="mini-label">Cantidad a Pedir</div>
+                <div class="mini-label">Costo Total por Pieza $</div>
+                <div class="mini-label">Costo Total del Pedido $</div>
+                <input id="cantidad" type="text" placeholder="0" oninput="calcularCostoTotal(); guardarDato('cantidad')">
+                <input id="costo_total_pieza" type="text" placeholder="0,00" readonly>
+                <input id="costo_total_pedido" type="text" placeholder="0,00" readonly>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="box-cif">
+                <label>Cálculo CIF e Impuestos</label>
+                <div class="grid-4">
+                    <div class="mini-label">Costo Flete por M3 $</div>
+                    <div class="mini-label">Costo Flete Unitario $</div>
+                    <div class="mini-label">Precio Unitario Artículo $</div>
+                    <div class="mini-label">Seguro Estimado 2% $</div>
+                    <input id="flete_m3" type="text" value="190,00" oninput="calcularCIF(); guardarDato('flete_m3')" onblur="formatearMoneda('flete_m3')">
+                    <input id="flete_unitario" type="text" placeholder="0,0000" readonly>
+                    <input id="precio_articulo_cif" type="text" placeholder="0,00" readonly>
+                    <input id="seguro" type="text" placeholder="0,000" readonly>
+                </div>
+
+                <div class="grid-4">
+                    <div class="mini-label">VALOR CIF UNITARIO $</div>
+                    <div class="mini-label">Gravamen Arancelario 10% $</div>
+                    <div class="mini-label">IVA Importación 14.94% $</div>
+                    <div class="mini-label">TOTAL IMPUESTOS $</div>
+                    <input id="valor_cif" type="text" placeholder="0,000" readonly>
+                    <input id="gravamen" type="text" placeholder="0,000" readonly>
+                    <input id="iva" type="text" placeholder="0,000" readonly>
+                    <input id="total_impuestos" type="text" placeholder="0,000" readonly>
+                </div>
+            </div>
+
+            <div class="box-final-usd">
+                <div class="grid-4">
+                    <div class="label-rosa">COSTO FINAL $</div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <input id="costo_final_bolivia" type="text" placeholder="0,00" readonly>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+
+            <div class="box-bs">
+                <label>Costos en Bolivianos</label>
+                <div class="grid-3">
+                    <div class="mini-label">Dólar Bs</div>
+                    <div class="mini-label">COSTO Bs</div>
+                    <div class="mini-label">COSTO POR DOCENA Bs</div>
+                    <input id="dolar_bs" type="text" placeholder="Ej: 6,96" oninput="calcularBs(); guardarDato('dolar_bs')" onblur="formatearMoneda('dolar_bs')">
+                    <input id="costo_final_bs" type="text" placeholder="0,00" readonly>
+                    <input id="costo_docena_bs" type="text" placeholder="0,00" readonly>
+                </div>
+            </div>
+
+            <div class="box-ars">
+                <label>Costos en Pesos Argentinos</label>
+                <div class="grid-3">
+                    <div class="mini-label">Dólar ARS</div>
+                    <div class="mini-label">COSTO ARS</div>
+                    <div class="mini-label">COSTO POR DOCENA ARS</div>
+                    <input id="dolar_ars" type="text" placeholder="Ej: 1000,00" oninput="calcularARS(); guardarDato('dolar_ars')" onblur="formatearMoneda('dolar_ars')">
+                    <input id="costo_final_ars" type="text" placeholder="0,00" readonly>
+                    <input id="costo_docena_ars" type="text" placeholder="0,00" readonly>
+                </div>
+            </div>
+
+            <button>Guardar</button>
+        </div>
+
+        <div class="card">
+            <h2>2. Resultados</h2>
+            <p style="color: #6b7280;">Aquí van a aparecer los cálculos</p>
+        </div>
+    </div>
+
+    <script>
+        let editando = false;
+        const TIPO_CAMBIO = 7.2;
+        const CAMPOS_MEMORIA = ['foto', 'nombre', 'link', 'detalles', 'largo_cm', 'ancho_cm', 'alto_cm', 'largo_mm', 'ancho_mm', 'alto_mm', 'hs_code', 'detalle_aduana', 'precio_final', 'precio_base', 'peso_gr', 'peso_kg', 'precio_yuan', 'precio_usd', 'cantidad', 'flete_m3', 'dolar_bs', 'dolar_ars'];
+
+        function parsearMoneda(valor) {
+            if (!valor) return 0;
+            return parseFloat(valor.toString().replace(',', '.')) || 0;
+        }
+
+        function formatearMoneda(id) {
+            const input = document.getElementById(id);
+            const valor = parsearMoneda(input.value);
+            if (valor > 0) input.value = valor.toFixed(2).replace('.', ',');
+        }
+
+        window.onload = function() {
+            CAMPOS_MEMORIA.forEach(campo => {
+                const valor = localStorage.getItem('anitas_' + campo);
+                if (valor!== null) document.getElementById(campo).value = valor;
+            });
+            mostrarFoto();
+            calcularEnvioPieza();
+            calcularBs();
+            calcularARS();
+        };
+
+        function guardarDato(id) {
+            localStorage.setItem('anitas_' + id, document.getElementById(id).value);
+        }
+
+        function mostrarFoto() {
+            const url = document.getElementById('foto').value;
+            const img = document.getElementById('imgPreview');
+            const containerFoto = document.getElementById('foto-container');
+            const btnCambiar = document.getElementById('btn-cambiar-foto');
+
+            if (url) {
+                img.src = url;
+                img.classList.remove('hidden');
+                containerFoto.classList.add('hidden');
+                btnCambiar.classList.remove('hidden');
+            } else {
+                img.classList.add('hidden');
+                containerFoto.classList.remove('hidden');
+                btnCambiar.classList.add('hidden');
+            }
+        }
+
+        function editarFoto() {
+            document.getElementById('foto-container').classList.remove('hidden');
+            document.getElementById('btn-cambiar-foto').classList.add('hidden');
+            document.getElementById('foto').focus();
+        }
+
+        function convertirPeso(origen) {
+            if (editando) return;
+            editando = true;
+
+            const gr = document.getElementById('peso_gr');
+            const kg = document.getElementById('peso_kg');
+            const valorGr = parsearMoneda(gr.value);
+            const valorKg = parsearMoneda(kg.value);
+
+            if (origen === 'gr' && gr.value) {
+                kg.value = (valorGr / 1000).toFixed(4).replace('.', ',');
+            } else if (origen === 'kg' && kg.value) {
+                gr.value = (valorKg * 1000).toFixed(1).replace('.', ',');
+            }
+
+            if (!gr.value) kg.value = '';
+            if (!kg.value) gr.value = '';
+
+            setTimeout(() => editando = false, 100);
+        }
+
+        function sincronizarMedida(dimension, origen) {
+            if (editando) return;
+            editando = true;
+
+            const valor = parsearMoneda(document.getElementById(`${dimension}_${origen}`).value);
+
+            if (origen === 'cm') {
+                document.getElementById(`${dimension}_mm`).value = valor > 0? (valor * 10).toFixed(0) : '';
+            } else {
+                document.getElementById(`${dimension}_cm`).value = valor > 0? (valor / 10).toFixed(1).replace('.', ',') : '';
+            }
+
+            calcularCaben();
+            calcularEnvioPieza();
+            calcularCostoTotal();
+            setTimeout(() => editando = false, 100);
+        }
+
+        function calcularCaben() {
+            const l = parsearMoneda(document.getElementById('largo_cm').value);
+            const a = parsearMoneda(document.getElementById('ancho_cm').value);
+            const h = parsearMoneda(document.getElementById('alto_cm').value);
+
+            if (l > 0 && a > 0 && h > 0) {
+                const volumenCm3 = l * a * h;
+                const caben = Math.floor(1000000 / volumenCm3);
+                document.getElementById('caben_cm').value = caben;
+                document.getElementById('caben_mm').value = caben;
+            } else {
+                document.getElementById('caben_cm').value = '';
+                document.getElementById('caben_mm').value = '';
+            }
+        }
+
+        function convertirMoneda(origen) {
+            if (editando) return;
+            editando = true;
+
+            const yuan = document.getElementById('precio_yuan');
+            const usd = document.getElementById('precio_usd');
+            const valorYuan = parsearMoneda(yuan.value);
+            const valorUsd = parsearMoneda(usd.value);
+
+            if (origen === 'yuan' && yuan.value) {
+                usd.value = (valorYuan / TIPO_CAMBIO).toFixed(2).replace('.', ',');
+            } else if (origen === 'usd' && usd.value) {
+                yuan.value = (valorUsd * TIPO_CAMBIO).toFixed(2).replace('.', ',');
+            }
+
+            if (!yuan.value) usd.value = '';
+            if (!usd.value) yuan.value = '';
+
+            calcularCostoTotal();
+            setTimeout(() => editando = false, 100);
+        }
+
+        function calcularEnvioPieza() {
+            const precioFinal = parsearMoneda(document.getElementById('precio_final').value);
+            const caben = parseFloat(document.getElementById('caben_cm').value) || 0;
+
+            document.getElementById('precio_final_display').value = precioFinal > 0? precioFinal.toFixed(2).replace('.', ',') : '';
+
+            if (precioFinal > 0 && caben > 0) {
+                document.getElementById('costo_envio_pieza').value = (precioFinal / caben).toFixed(4).replace('.', ',');
+            } else {
+                document.getElementById('costo_envio_pieza').value = '';
+            }
+            calcularCostoTotal();
+        }
+
+        function calcularCostoTotal() {
+            const precioFob = parsearMoneda(document.getElementById('precio_usd').value);
+            const envioPieza = parsearMoneda(document.getElementById('costo_envio_pieza').value);
+            const cantidad = parseFloat(document.getElementById('cantidad').value) || 0;
+
+            const costoTotalPieza = precioFob + envioPieza;
+
+            if (costoTotalPieza > 0) {
+                document.getElementById('costo_total_pieza').value = costoTotalPieza.toFixed(2).replace('.', ',');
+            } else {
+                document.getElementById('costo_total_pieza').value = '';
+            }
+
+            if (costoTotalPieza > 0 && cantidad > 0) {
+                document.getElementById('costo_total_pedido').value = (costoTotalPieza * cantidad).toFixed(2).replace('.', ',');
+            } else {
+                document.getElementById('costo_total_pedido').value = '';
+            }
+
+            calcularCIF();
+        }
+
+        function calcularCIF() {
+            const fleteM3 = parsearMoneda(document.getElementById('flete_m3').value);
+            const caben = parseFloat(document.getElementById('caben_cm').value) || 0;
+            const precioArticulo = parsearMoneda(document.getElementById('costo_total_pieza').value);
+
+            if (fleteM3 > 0 && caben > 0) {
+                const fleteUnitario = fleteM3 / caben;
+                document.getElementById('flete_unitario').value = fleteUnitario.toFixed(4).replace('.', ',');
+                document.getElementById('precio_articulo_cif').value = precioArticulo.toFixed(2).replace('.', ',');
+
+                const seguro = (precioArticulo + fleteUnitario) * 0.02;
+                document.getElementById('seguro').value = seguro.toFixed(3).replace('.', ',');
+
+                const valorCif = precioArticulo + fleteUnitario + seguro;
+                document.getElementById('valor_cif').value = valorCif.toFixed(3).replace('.', ',');
+
+                const gravamen = valorCif * 0.10;
+                document.getElementById('gravamen').value = gravamen.toFixed(3).replace('.', ',');
+
+                const iva = (valorCif + gravamen) * 0.1494;
+                document.getElementById('iva').value = iva.toFixed(3).replace('.', ',');
+
+                const totalImpuestos = gravamen + iva;
+                document.getElementById('total_impuestos').value = totalImpuestos.toFixed(3).replace('.', ',');
+
+                const costoFinal = valorCif + totalImpuestos;
+                document.getElementById('costo_final_bolivia').value = costoFinal.toFixed(2).replace('.', ',');
+
+                calcularBs();
+                calcularARS();
+            } else {
+                document.getElementById('flete_unitario').value = '';
+                document.getElementById('precio_articulo_cif').value = '';
+                document.getElementById('seguro').value = '';
+                document.getElementById('valor_cif').value = '';
+                document.getElementById('gravamen').value = '';
+                document.getElementById('iva').value = '';
+                document.getElementById('total_impuestos').value = '';
+                document.getElementById('costo_final_bolivia').value = '';
+                document.getElementById('costo_final_bs').value = '';
+                document.getElementById('costo_final_ars').value = '';
+                document.getElementById('costo_docena_bs').value = '';
+                document.getElementById('costo_docena_ars').value = '';
+            }
+        }
+
+        function calcularBs() {
+            const costoUsd = parsearMoneda(document.getElementById('costo_final_bolivia').value);
+            const dolarBs = parsearMoneda(document.getElementById('dolar_bs').value);
+
+            if (costoUsd > 0 && dolarBs > 0) {
+                const costoBs = costoUsd * dolarBs;
+                document.getElementById('costo_final_bs').value = costoBs.toFixed(2).replace('.', ',');
+                document.getElementById('costo_docena_bs').value = (costoBs * 12).toFixed(2).replace('.', ',');
+            } else {
+                document.getElementById('costo_final_bs').value = '';
+                document.getElementById('costo_docena_bs').value = '';
+            }
+        }
+
+        function calcularARS() {
+            const costoUsd = parsearMoneda(document.getElementById('costo_final_bolivia').value);
+            const dolarArs = parsearMoneda(document.getElementById('dolar_ars').value);
+
+            if (costoUsd > 0 && dolarArs > 0) {
+                const costoArs = costoUsd * dolarArs;
+                document.getElementById('costo_final_ars').value = costoArs.toFixed(2).replace('.', ',');
+                document.getElementById('costo_docena_ars').value = (costoArs * 12).toFixed(2).replace('.', ',');
+            } else {
+                document.getElementById('costo_final_ars').value = '';
+                document.getElementById('costo_docena_ars').value = '';
+            }
+        }
+    </script>
+</body>
+</html>
