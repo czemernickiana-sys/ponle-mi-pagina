@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANITAS STORE</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -17,11 +17,11 @@
             background: #fff1f2;
             padding: 20px;
         }
-.container {
+       .container {
             max-width: 1000px;
             margin: 0 auto;
         }
-.card {
+       .card {
             background: white;
             border-radius: 12px;
             padding: 20px;
@@ -47,14 +47,14 @@
             margin-bottom: 4px;
             font-weight: 500;
         }
-.mini-label {
+       .mini-label {
             font-size: 12px;
             font-weight: bold;
             color: #374151;
             text-align: center;
             margin-bottom: 4px;
         }
-.label-rosa {
+       .label-rosa {
             color: #db2777;
             font-weight: bold;
             font-size: 12px;
@@ -93,94 +93,94 @@
         button:hover {
             background: #db2777;
         }
-.btn-secundario {
+       .btn-secundario {
             background: #f9a8d4;
             color: #831843;
             font-size: 12px;
             padding: 6px 12px;
             margin-bottom: 12px;
         }
- .btn-secundario:hover {
+       .btn-secundario:hover {
             background: #f472b6;
         }
-.btn-verde {
+       .btn-verde {
             background: #22c55e;
         }
-.btn-verde:hover {
+       .btn-verde:hover {
             background: #16a34a;
         }
-.btn-gris {
+       .btn-gris {
             background: #6b7280;
         }
-.btn-gris:hover {
+       .btn-gris:hover {
             background: #4b5563;
         }
-.botones-accion {
+       .botones-accion {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
         }
-.grid-4 {
+       .grid-4 {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr;
             gap: 8px;
             margin-bottom: 12px;
             align-items: end;
         }
-.grid-2 {
+       .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
             margin-bottom: 12px;
             align-items: end;
         }
-.grid-3 {
+       .grid-3 {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 8px;
             margin-bottom: 12px;
             align-items: end;
         }
-.grid-hs {
+       .grid-hs {
             display: grid;
             grid-template-columns: 200px 1fr;
             gap: 8px;
             margin-bottom: 12px;
             align-items: end;
         }
-.box-aduana {
+       .box-aduana {
             background: #fce7f3;
             padding: 12px;
             border-radius: 8px;
             border: 1px solid #f9a8d4;
             margin-bottom: 12px;
         }
-.box-cif {
+       .box-cif {
             background: #fbcfe8;
             padding: 16px;
             border-radius: 8px;
             border: 2px solid #f472b6;
             margin-bottom: 12px;
         }
-.box-final-usd {
+       .box-final-usd {
             background: #f9a8d4;
             padding: 16px;
             border-radius: 8px;
             border: 3px solid #ec4899;
             margin-bottom: 12px;
         }
-.box-final-usd input {
+       .box-final-usd input {
             height: 45px;
             font-size: 18px;
         }
-.box-bs {
+       .box-bs {
             background: #e0f2fe;
             padding: 16px;
             border-radius: 8px;
             border: 2px solid #7dd3fc;
             margin-bottom: 12px;
         }
-.box-ars {
+       .box-ars {
             background: #dcfce7;
             padding: 16px;
             border-radius: 8px;
@@ -196,10 +196,16 @@
             display: block;
             margin: 0 auto 12px auto;
         }
-.hidden { display: none; }
-.divider {
+       .hidden { display: none; }
+       .divider {
             border-top: 3px solid #f9a8d4;
             margin: 24px 0;
+        }
+        @media (max-width: 768px) {
+           .grid-4,.grid-3,.grid-2,.grid-hs {
+                grid-template-columns: 1fr;
+            }
+            h1 { font-size: 36px; }
         }
     </style>
 </head>
@@ -371,13 +377,14 @@
             <div class="botones-accion">
                 <button onclick="guardarTodo()">Guardar</button>
                 <button class="btn-verde" onclick="exportarExcel()">Exportar Excel</button>
+                <button class="btn-verde" onclick="exportarPDF()">Exportar PDF</button>
                 <button class="btn-gris" onclick="limpiarFormulario()">Limpiar</button>
             </div>
         </div>
 
-        <div class="card">
-            <h2>2. Resultados</h2>
-            <p style="color: #6b7280;">Aquí van a aparecer los cálculos</p>
+        <div class="card" id="resumen">
+            <h2>2. Resumen</h2>
+            <p style="color: #6b7280;">El resumen se genera al exportar PDF</p>
         </div>
     </div>
 
@@ -644,55 +651,91 @@
         }
 
         function exportarExcel() {
-    const nombre = document.getElementById('nombre').value || 'Sin nombre';
-    const fecha = new Date().toLocaleDateString('es-BO');
-    
-    let csv = `ANITAS STORE - FICHA DE PRODUCTO\n`;
-    csv += `Fecha: ${fecha}\n\n`;
-    
-    csv += `DATOS GENERALES\n`;
-    csv += `Producto,${nombre}\n`;
-    csv += `Link,${document.getElementById('link').value}\n`;
-    csv += `Detalles,"${document.getElementById('detalles').value}"\n`;
-    csv += `HS Code,${document.getElementById('hs_code').value}\n\n`;
-    
-    csv += `MEDIDAS Y VOLUMEN\n`;
-    csv += `Largo cm,${document.getElementById('largo_cm').value}\n`;
-    csv += `Ancho cm,${document.getElementById('ancho_cm').value}\n`;
-    csv += `Alto cm,${document.getElementById('alto_cm').value}\n`;
-    csv += `Piezas por m3,${document.getElementById('caben_cm').value}\n`;
-    csv += `Peso kg,${document.getElementById('peso_kg').value}\n\n`;
-    
-    csv += `COSTOS PRODUCTO\n`;
-    csv += `Precio Yuanes,${document.getElementById('precio_yuan').value}\n`;
-    csv += `Precio USD,${document.getElementById('precio_usd').value}\n`;
-    csv += `Costo Envio por Pieza USD,${document.getElementById('costo_envio_pieza').value}\n`;
-    csv += `Costo Total por Pieza USD,${document.getElementById('costo_total_pieza').value}\n\n`;
-    
-    csv += `CIF E IMPUESTOS\n`;
-    csv += `Flete m3 USD,${document.getElementById('flete_m3').value}\n`;
-    csv += `Flete Unitario USD,${document.getElementById('flete_unitario').value}\n`;
-    csv += `Seguro 2% USD,${document.getElementById('seguro').value}\n`;
-    csv += `Valor CIF USD,${document.getElementById('valor_cif').value}\n`;
-    csv += `Gravamen 10% USD,${document.getElementById('gravamen').value}\n`;
-    csv += `IVA 14.94% USD,${document.getElementById('iva').value}\n`;
-    csv += `Total Impuestos USD,${document.getElementById('total_impuestos').value}\n\n`;
-    
-    csv += `COSTOS FINALES\n`;
-    csv += `COSTO FINAL USD,${document.getElementById('costo_final_bolivia').value}\n`;
-    csv += `Tipo Cambio Bs,${document.getElementById('dolar_bs').value}\n`;
-    csv += `COSTO FINAL Bs,${document.getElementById('costo_final_bs').value}\n`;
-    csv += `COSTO DOCENA Bs,${document.getElementById('costo_docena_bs').value}\n`;
-    csv += `Tipo Cambio ARS,${document.getElementById('dolar_ars').value}\n`;
-    csv += `COSTO FINAL ARS,${document.getElementById('costo_final_ars').value}\n`;
-    csv += `COSTO DOCENA ARS,${document.getElementById('costo_docena_ars').value}\n`;
+            const nombre = document.getElementById('nombre').value || 'Sin nombre';
+            const fecha = new Date().toLocaleDateString('es-BO');
 
-    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `ANITAS_${nombre.replace(/[^a-z0-9]/gi, '_')}_${fecha.replace(/\//g, '-')}.csv`;
-    link.click();
-}
+            let csv = `ANITAS STORE - FICHA DE PRODUCTO\n`;
+            csv += `Fecha: ${fecha}\n\n`;
+
+            csv += `DATOS GENERALES\n`;
+            csv += `Producto,${nombre}\n`;
+            csv += `Link,${document.getElementById('link').value}\n`;
+            csv += `Detalles,"${document.getElementById('detalles').value}"\n`;
+            csv += `HS Code,${document.getElementById('hs_code').value}\n`;
+            csv += `Detalle Aduana,${document.getElementById('detalle_aduana').value}\n\n`;
+
+            csv += `MEDIDAS Y VOLUMEN\n`;
+            csv += `Largo cm,${document.getElementById('largo_cm').value}\n`;
+            csv += `Ancho cm,${document.getElementById('ancho_cm').value}\n`;
+            csv += `Alto cm,${document.getElementById('alto_cm').value}\n`;
+            csv += `Piezas por m3,${document.getElementById('caben_cm').value}\n\n`;
+
+            csv += `PESO\n`;
+            csv += `Peso gramos,${document.getElementById('peso_gr').value}\n`;
+            csv += `Peso kilos,${document.getElementById('peso_kg').value}\n\n`;
+
+            csv += `COSTOS FOB\n`;
+            csv += `Precio Yuan,${document.getElementById('precio_yuan').value}\n`;
+            csv += `Precio USD,${document.getElementById('precio_usd').value}\n`;
+            csv += `Flete 1m3,${document.getElementById('precio_final').value}\n`;
+            csv += `Costo Envio Pieza,${document.getElementById('costo_envio_pieza').value}\n`;
+            csv += `Costo Total Pieza,${document.getElementById('costo_total_pieza').value}\n`;
+            csv += `Cantidad,${document.getElementById('cantidad').value}\n`;
+            csv += `Costo Total Pedido,${document.getElementById('costo_total_pedido').value}\n\n`;
+
+            csv += `CIF E IMPUESTOS\n`;
+            csv += `Flete M3,${document.getElementById('flete_m3').value}\n`;
+            csv += `Flete Unitario,${document.getElementById('flete_unitario').value}\n`;
+            csv += `Seguro,${document.getElementById('seguro').value}\n`;
+            csv += `Valor CIF,${document.getElementById('valor_cif').value}\n`;
+            csv += `Gravamen,${document.getElementById('gravamen').value}\n`;
+            csv += `IVA,${document.getElementById('iva').value}\n`;
+            csv += `Total Impuestos,${document.getElementById('total_impuestos').value}\n\n`;
+
+            csv += `COSTO FINAL\n`;
+            csv += `Costo USD,${document.getElementById('costo_final_bolivia').value}\n`;
+            csv += `Tipo Cambio Bs,${document.getElementById('dolar_bs').value}\n`;
+            csv += `Costo Bs,${document.getElementById('costo_final_bs').value}\n`;
+            csv += `Docena Bs,${document.getElementById('costo_docena_bs').value}\n`;
+            csv += `Tipo Cambio ARS,${document.getElementById('dolar_ars').value}\n`;
+            csv += `Costo ARS,${document.getElementById('costo_final_ars').value}\n`;
+            csv += `Docena ARS,${document.getElementById('costo_docena_ars').value}\n`;
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `ANITAS_${nombre.replace(/\s+/g, '_')}_${fecha.replace(/\//g, '-')}.csv`;
+            link.click();
+        }
+
+        function exportarPDF() {
+            const { jsPDF } = window.jspdf;
+            const elemento = document.querySelector('.container');
+
+            html2canvas(elemento, { scale: 2 }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const imgWidth = 190;
+                const pageHeight = 297;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 10;
+
+                pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight + 10;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                const nombre = document.getElementById('nombre').value || 'Sin_nombre';
+                const fecha = new Date().toLocaleDateString('es-BO').replace(/\//g, '-');
+                pdf.save(`ANITAS_${nombre.replace(/\s+/g, '_')}_${fecha}.pdf`);
+            });
+        }
     </script>
 </body>
 </html>
