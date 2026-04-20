@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANITAS STORE</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -17,11 +15,11 @@
             background: #fff1f2;
             padding: 20px;
         }
-      .container {
+.container {
             max-width: 1000px;
             margin: 0 auto;
         }
-      .card {
+.card {
             background: white;
             border-radius: 12px;
             padding: 20px;
@@ -47,14 +45,14 @@
             margin-bottom: 4px;
             font-weight: 500;
         }
-      .mini-label {
+.mini-label {
             font-size: 12px;
             font-weight: bold;
             color: #374151;
             text-align: center;
             margin-bottom: 4px;
         }
-      .label-rosa {
+.label-rosa {
             color: #db2777;
             font-weight: bold;
             font-size: 12px;
@@ -93,94 +91,94 @@
         button:hover {
             background: #db2777;
         }
-      .btn-secundario {
+.btn-secundario {
             background: #f9a8d4;
             color: #831843;
             font-size: 12px;
             padding: 6px 12px;
             margin-bottom: 12px;
         }
-      .btn-secundario:hover {
+ .btn-secundario:hover {
             background: #f472b6;
         }
-      .btn-verde {
+.btn-verde {
             background: #22c55e;
         }
-      .btn-verde:hover {
+.btn-verde:hover {
             background: #16a34a;
         }
-      .btn-gris {
+.btn-gris {
             background: #6b7280;
         }
-      .btn-gris:hover {
+.btn-gris:hover {
             background: #4b5563;
         }
-      .botones-accion {
+.botones-accion {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
         }
-      .grid-4 {
+.grid-4 {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr;
             gap: 8px;
             margin-bottom: 12px;
             align-items: end;
         }
-      .grid-2 {
+.grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
             margin-bottom: 12px;
             align-items: end;
         }
-      .grid-3 {
+.grid-3 {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 8px;
             margin-bottom: 12px;
             align-items: end;
         }
-      .grid-hs {
+.grid-hs {
             display: grid;
             grid-template-columns: 200px 1fr;
             gap: 8px;
             margin-bottom: 12px;
             align-items: end;
         }
-      .box-aduana {
+.box-aduana {
             background: #fce7f3;
             padding: 12px;
             border-radius: 8px;
             border: 1px solid #f9a8d4;
             margin-bottom: 12px;
         }
-      .box-cif {
+.box-cif {
             background: #fbcfe8;
             padding: 16px;
             border-radius: 8px;
             border: 2px solid #f472b6;
             margin-bottom: 12px;
         }
-      .box-final-usd {
+.box-final-usd {
             background: #f9a8d4;
             padding: 16px;
             border-radius: 8px;
             border: 3px solid #ec4899;
             margin-bottom: 12px;
         }
-      .box-final-usd input {
+.box-final-usd input {
             height: 45px;
             font-size: 18px;
         }
-      .box-bs {
+.box-bs {
             background: #e0f2fe;
             padding: 16px;
             border-radius: 8px;
             border: 2px solid #7dd3fc;
             margin-bottom: 12px;
         }
-      .box-ars {
+.box-ars {
             background: #dcfce7;
             padding: 16px;
             border-radius: 8px;
@@ -196,16 +194,10 @@
             display: block;
             margin: 0 auto 12px auto;
         }
-      .hidden { display: none; }
-      .divider {
+.hidden { display: none; }
+.divider {
             border-top: 3px solid #f9a8d4;
             margin: 24px 0;
-        }
-        @media (max-width: 768px) {
-          .grid-4,.grid-3,.grid-2,.grid-hs {
-                grid-template-columns: 1fr;
-            }
-            h1 { font-size: 36px; }
         }
     </style>
 </head>
@@ -377,20 +369,20 @@
             <div class="botones-accion">
                 <button onclick="guardarTodo()">Guardar</button>
                 <button class="btn-verde" onclick="exportarExcel()">Exportar Excel</button>
-                <button class="btn-verde" onclick="exportarPDF()">Exportar PDF</button>
                 <button class="btn-gris" onclick="limpiarFormulario()">Limpiar</button>
             </div>
         </div>
 
-        <div class="card" id="resumen">
-            <h2>2. Resumen</h2>
-            <p style="color: #6b7280;">El resumen se genera al exportar PDF</p>
+        <div class="card">
+            <h2>2. Resultados</h2>
+            <p style="color: #6b7280;">Aquí van a aparecer los cálculos</p>
         </div>
     </div>
 
     <script>
         let editando = false;
         const TIPO_CAMBIO = 7.2;
+        const CAMPOS_MEMORIA = ['foto', 'nombre', 'link', 'detalles', 'largo_cm', 'ancho_cm', 'alto_cm', 'largo_mm', 'ancho_mm', 'alto_mm', 'hs_code', 'detalle_aduana', 'precio_final', 'precio_base', 'peso_gr', 'peso_kg', 'precio_yuan', 'precio_usd', 'cantidad', 'flete_m3', 'dolar_bs', 'dolar_ars'];
 
         function parsearMoneda(valor) {
             if (!valor) return 0;
@@ -401,42 +393,22 @@
             const input = document.getElementById(id);
             const valor = parsearMoneda(input.value);
             if (valor > 0) input.value = valor.toFixed(2).replace('.', ',');
-            guardarDato(id);
-        }
-
-        // GUARDAR TODOS LOS CAMPOS CON ID
-        function guardarDato(id) {
-            const el = document.getElementById(id);
-            if (el) localStorage.setItem('anitas_' + id, el.value);
-        }
-
-        function guardarTodosLosCampos() {
-            document.querySelectorAll('input[id], textarea[id]').forEach(el => {
-                localStorage.setItem('anitas_' + el.id, el.value);
-            });
         }
 
         window.onload = function() {
-            // 1. Restaurar TODOS los campos guardados
-            document.querySelectorAll('input[id], textarea[id]').forEach(el => {
-                const valor = localStorage.getItem('anitas_' + el.id);
-                if (valor!== null) el.value = valor;
+            CAMPOS_MEMORIA.forEach(campo => {
+                const valor = localStorage.getItem('anitas_' + campo);
+                if (valor!== null) document.getElementById(campo).value = valor;
             });
-
-            // 2. Mostrar foto si hay
             mostrarFoto();
-
-            // 3. Recalcular todo en cadena
-            calcularCaben();
             calcularEnvioPieza();
-            calcularCostoTotal();
-            calcularCIF();
             calcularBs();
             calcularARS();
-
-            // 4. Auto-guardar cada vez que algo cambie, incluso los readonly
-            setInterval(guardarTodosLosCampos, 1000);
         };
+
+        function guardarDato(id) {
+            localStorage.setItem('anitas_' + id, document.getElementById(id).value);
+        }
 
         function mostrarFoto() {
             const url = document.getElementById('foto').value;
@@ -480,7 +452,7 @@
             if (!gr.value) kg.value = '';
             if (!kg.value) gr.value = '';
 
-            setTimeout(() => { editando = false; guardarTodosLosCampos(); }, 100);
+            setTimeout(() => editando = false, 100);
         }
 
         function sincronizarMedida(dimension, origen) {
@@ -498,7 +470,7 @@
             calcularCaben();
             calcularEnvioPieza();
             calcularCostoTotal();
-            setTimeout(() => { editando = false; guardarTodosLosCampos(); }, 100);
+            setTimeout(() => editando = false, 100);
         }
 
         function calcularCaben() {
@@ -536,7 +508,7 @@
             if (!usd.value) yuan.value = '';
 
             calcularCostoTotal();
-            setTimeout(() => { editando = false; guardarTodosLosCampos(); }, 100);
+            setTimeout(() => editando = false, 100);
         }
 
         function calcularEnvioPieza() {
@@ -606,11 +578,19 @@
                 calcularBs();
                 calcularARS();
             } else {
-                ['flete_unitario','precio_articulo_cif','seguro','valor_cif','gravamen','iva','total_impuestos','costo_final_bolivia','costo_final_bs','costo_final_ars','costo_docena_bs','costo_docena_ars'].forEach(id => {
-                    document.getElementById(id).value = '';
-                });
+                document.getElementById('flete_unitario').value = '';
+                document.getElementById('precio_articulo_cif').value = '';
+                document.getElementById('seguro').value = '';
+                document.getElementById('valor_cif').value = '';
+                document.getElementById('gravamen').value = '';
+                document.getElementById('iva').value = '';
+                document.getElementById('total_impuestos').value = '';
+                document.getElementById('costo_final_bolivia').value = '';
+                document.getElementById('costo_final_bs').value = '';
+                document.getElementById('costo_final_ars').value = '';
+                document.getElementById('costo_docena_bs').value = '';
+                document.getElementById('costo_docena_ars').value = '';
             }
-            guardarTodosLosCampos();
         }
 
         function calcularBs() {
@@ -625,7 +605,6 @@
                 document.getElementById('costo_final_bs').value = '';
                 document.getElementById('costo_docena_bs').value = '';
             }
-            guardarTodosLosCampos();
         }
 
         function calcularARS() {
@@ -640,19 +619,20 @@
                 document.getElementById('costo_final_ars').value = '';
                 document.getElementById('costo_docena_ars').value = '';
             }
-            guardarTodosLosCampos();
         }
 
         function guardarTodo() {
-            guardarTodosLosCampos();
-            alert('Todos los datos guardados. No se perderán al recargar.');
+            CAMPOS_MEMORIA.forEach(campo => {
+                guardarDato(campo);
+            });
+            alert('Datos guardados correctamente');
         }
 
         function limpiarFormulario() {
             if (confirm('¿Seguro que querés limpiar todo? Esto borra también la memoria guardada.')) {
-                document.querySelectorAll('input[id], textarea[id]').forEach(el => {
-                    el.value = '';
-                    localStorage.removeItem('anitas_' + el.id);
+                CAMPOS_MEMORIA.forEach(campo => {
+                    document.getElementById(campo).value = '';
+                    localStorage.removeItem('anitas_' + campo);
                 });
                 mostrarFoto();
                 calcularEnvioPieza();
@@ -662,81 +642,41 @@
         }
 
         function exportarExcel() {
-            const nombre = document.getElementById('nombre').value || 'Sin nombre';
-            const fecha = new Date().toLocaleDateString('es-BO');
+            let csv = 'Campo,Valor\n';
+            const etiquetas = {
+                'nombre': 'Nombre producto',
+                'link': 'Link 1688/Taobao',
+                'detalles': 'Detalles',
+                'largo_cm': 'Largo cm',
+                'ancho_cm': 'Ancho cm',
+                'alto_cm': 'Alto cm',
+                'caben_cm': 'Piezas por m³',
+                'hs_code': 'HS CODE',
+                'precio_yuan': 'Precio Yuanes',
+                'precio_usd': 'Precio USD',
+                'costo_envio_pieza': 'Costo Envío Pieza',
+                'costo_total_pieza': 'Costo Total Pieza',
+                'costo_final_bolivia': 'Costo Final USD',
+                'costo_final_bs': 'Costo Bs',
+                'costo_docena_bs': 'Costo Docena Bs',
+                'costo_final_ars': 'Costo ARS',
+                'costo_docena_ars': 'Costo Docena ARS'
+            };
 
-            let csv = `ANITAS STORE - FICHA DE PRODUCTO\n`;
-            csv += `Fecha: ${fecha}\n\n`;
-
-            csv += `DATOS GENERALES\n`;
-            csv += `Producto,${nombre}\n`;
-            csv += `Link,${document.getElementById('link').value}\n`;
-            csv += `Detalles,"${document.getElementById('detalles').value}"\n`;
-            csv += `HS Code,${document.getElementById('hs_code').value}\n`;
-            csv += `Detalle Aduana,${document.getElementById('detalle_aduana').value}\n\n`;
-
-            csv += `MEDIDAS Y VOLUMEN\n`;
-            csv += `Largo cm,${document.getElementById('largo_cm').value}\n`;
-            csv += `Ancho cm,${document.getElementById('ancho_cm').value}\n`;
-            csv += `Alto cm,${document.getElementById('alto_cm').value}\n`;
-            csv += `Piezas por m3,${document.getElementById('caben_cm').value}\n\n`;
-
-            csv += `PESO\n`;
-            csv += `Peso gramos,${document.getElementById('peso_gr').value}\n`;
-            csv += `Peso kilos,${document.getElementById('peso_kg').value}\n\n`;
-
-            csv += `COSTOS FOB\n`;
-            csv += `Precio Yuan,${document.getElementById('precio_yuan').value}\n`;
-            csv += `Precio USD,${document.getElementById('precio_usd').value}\n`;
-            csv += `Flete 1m3,${document.getElementById('precio_final').value}\n`;
-            csv += `Costo Envio Pieza,${document.getElementById('costo_envio_pieza').value}\n`;
-            csv += `Costo Total Pieza,${document.getElementById('costo_total_pieza').value}\n`;
-            csv += `Cantidad,${document.getElementById('cantidad').value}\n`;
-            csv += `Costo Total Pedido,${document.getElementById('costo_total_pedido').value}\n\n`;
-
-            csv += `CIF E IMPUESTOS\n`;
-            csv += `Flete M3,${document.getElementById('flete_m3').value}\n`;
-            csv += `Flete Unitario,${document.getElementById('flete_unitario').value}\n`;
-            csv += `Seguro,${document.getElementById('seguro').value}\n`;
-            csv += `Valor CIF,${document.getElementById('valor_cif').value}\n`;
-            csv += `Gravamen,${document.getElementById('gravamen').value}\n`;
-            csv += `IVA,${document.getElementById('iva').value}\n`;
-            csv += `Total Impuestos,${document.getElementById('total_impuestos').value}\n\n`;
-
-            csv += `COSTO FINAL\n`;
-            csv += `Costo USD,${document.getElementById('costo_final_bolivia').value}\n`;
-            csv += `Tipo Cambio Bs,${document.getElementById('dolar_bs').value}\n`;
-            csv += `Costo Bs,${document.getElementById('costo_final_bs').value}\n`;
-            csv += `Docena Bs,${document.getElementById('costo_docena_bs').value}\n`;
-            csv += `Tipo Cambio ARS,${document.getElementById('dolar_ars').value}\n`;
-            csv += `Costo ARS,${document.getElementById('costo_final_ars').value}\n`;
-            csv += `Docena ARS,${document.getElementById('costo_docena_ars').value}\n`;
+            for (let id in etiquetas) {
+                const elem = document.getElementById(id);
+                if (elem) {
+                    csv += `"${etiquetas[id]}","${elem.value}"\n`;
+                }
+            }
 
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
+            const nombre = document.getElementById('nombre').value || 'producto';
             link.href = URL.createObjectURL(blob);
-            link.download = `ANITAS_${nombre.replace(/\s+/g, '_')}_${fecha.replace(/\//g, '-')}.csv`;
+            link.download = `ANITAS_${nombre.replace(/[^a-z0-9]/gi, '_')}.csv`;
             link.click();
         }
-
-        function exportarPDF() {
-            const { jsPDF } = window.jspdf;
-            const elemento = document.querySelector('.container');
-
-            html2canvas(elemento, { scale: 2, useCORS: true }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const imgWidth = 190;
-                const pageHeight = 297;
-                const imgHeight = canvas.height * imgWidth / canvas.width;
-                let heightLeft = imgHeight;
-                let position = 10;
-
-                pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-
-                while (heightLeft >= 0) {
-                    position = heightLeft - imgHeight + 10;
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight
+    </script>
+</body>
+</html>
