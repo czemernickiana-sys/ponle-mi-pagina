@@ -98,8 +98,25 @@
             padding: 6px 12px;
             margin-bottom: 12px;
         }
-    .btn-secundario:hover {
+ .btn-secundario:hover {
             background: #f472b6;
+        }
+.btn-verde {
+            background: #22c55e;
+        }
+.btn-verde:hover {
+            background: #16a34a;
+        }
+.btn-gris {
+            background: #6b7280;
+        }
+.btn-gris:hover {
+            background: #4b5563;
+        }
+.botones-accion {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 .grid-4 {
             display: grid;
@@ -349,7 +366,11 @@
                 </div>
             </div>
 
-            <button>Guardar</button>
+            <div class="botones-accion">
+                <button onclick="guardarTodo()">Guardar</button>
+                <button class="btn-verde" onclick="exportarExcel()">Exportar Excel</button>
+                <button class="btn-gris" onclick="limpiarFormulario()">Limpiar</button>
+            </div>
         </div>
 
         <div class="card">
@@ -598,6 +619,63 @@
                 document.getElementById('costo_final_ars').value = '';
                 document.getElementById('costo_docena_ars').value = '';
             }
+        }
+
+        function guardarTodo() {
+            CAMPOS_MEMORIA.forEach(campo => {
+                guardarDato(campo);
+            });
+            alert('Datos guardados correctamente');
+        }
+
+        function limpiarFormulario() {
+            if (confirm('¿Seguro que querés limpiar todo? Esto borra también la memoria guardada.')) {
+                CAMPOS_MEMORIA.forEach(campo => {
+                    document.getElementById(campo).value = '';
+                    localStorage.removeItem('anitas_' + campo);
+                });
+                mostrarFoto();
+                calcularEnvioPieza();
+                calcularBs();
+                calcularARS();
+            }
+        }
+
+        function exportarExcel() {
+            let csv = 'Campo,Valor\n';
+            const etiquetas = {
+                'nombre': 'Nombre producto',
+                'link': 'Link 1688/Taobao',
+                'detalles': 'Detalles',
+                'largo_cm': 'Largo cm',
+                'ancho_cm': 'Ancho cm',
+                'alto_cm': 'Alto cm',
+                'caben_cm': 'Piezas por m³',
+                'hs_code': 'HS CODE',
+                'precio_yuan': 'Precio Yuanes',
+                'precio_usd': 'Precio USD',
+                'costo_envio_pieza': 'Costo Envío Pieza',
+                'costo_total_pieza': 'Costo Total Pieza',
+                'costo_final_bolivia': 'Costo Final USD',
+                'costo_final_bs': 'Costo Bs',
+                'costo_docena_bs': 'Costo Docena Bs',
+                'costo_final_ars': 'Costo ARS',
+                'costo_docena_ars': 'Costo Docena ARS'
+            };
+
+            for (let id in etiquetas) {
+                const elem = document.getElementById(id);
+                if (elem) {
+                    csv += `"${etiquetas[id]}","${elem.value}"\n`;
+                }
+            }
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const nombre = document.getElementById('nombre').value || 'producto';
+            link.href = URL.createObjectURL(blob);
+            link.download = `ANITAS_${nombre.replace(/[^a-z0-9]/gi, '_')}.csv`;
+            link.click();
         }
     </script>
 </body>
