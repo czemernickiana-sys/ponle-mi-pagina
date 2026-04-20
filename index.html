@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANITAS STORE</title>
+    <title>ANITAS STORE - Calculadora de Importación</title>
+    <meta name="description" content="Calculadora de costos de importación para Anitas Store">
     <style>
         * {
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: system-ui, -apple-system, Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
@@ -15,22 +16,22 @@
             background: #fff1f2;
             padding: 20px;
         }
-.container {
-            max-width: 1000px;
+     .container {
+            max-width: 1200px;
             margin: 0 auto;
         }
-.card {
+     .card {
             background: white;
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             border: 1px solid #fbcfe8;
         }
         h1 {
             color: #db2777;
             text-align: center;
-            font-size: 48px;
+            font-size: clamp(32px, 8vw, 48px);
             margin-bottom: 20px;
         }
         h2 {
@@ -45,14 +46,14 @@
             margin-bottom: 4px;
             font-weight: 500;
         }
-.mini-label {
-            font-size: 12px;
+     .mini-label {
+            font-size: 11px;
             font-weight: bold;
             color: #374151;
             text-align: center;
             margin-bottom: 4px;
         }
-.label-rosa {
+     .label-rosa {
             color: #db2777;
             font-weight: bold;
             font-size: 12px;
@@ -66,13 +67,16 @@
             border-radius: 6px;
             margin-bottom: 12px;
             height: 38px;
+            font-size: 14px;
         }
         textarea {
             height: auto;
+            resize: vertical;
         }
         input:focus, textarea:focus {
             outline: none;
             border-color: #ec4899;
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
         }
         input[readonly] {
             background: #fdf2f8;
@@ -87,89 +91,112 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            transition: all 0.2s;
         }
         button:hover {
             background: #db2777;
+            transform: translateY(-1px);
         }
-.btn-secundario {
+     .btn-secundario {
             background: #f9a8d4;
             color: #831843;
             font-size: 12px;
             padding: 6px 12px;
-            margin-bottom: 12px;
         }
-    .btn-secundario:hover {
+     .btn-secundario:hover {
             background: #f472b6;
         }
-.grid-4 {
+     .btn-verde {
+            background: #10b981;
+        }
+     .btn-verde:hover {
+            background: #059669;
+        }
+     .btn-azul {
+            background: #3b82f6;
+        }
+     .btn-azul:hover {
+            background: #2563eb;
+        }
+     .grid-4 {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-columns: repeat(4, 1fr);
             gap: 8px;
             margin-bottom: 12px;
             align-items: end;
         }
-.grid-2 {
+     .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
             margin-bottom: 12px;
             align-items: end;
         }
-.grid-3 {
+     .grid-3 {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 8px;
             margin-bottom: 12px;
             align-items: end;
         }
-.grid-hs {
+     .grid-hs {
             display: grid;
             grid-template-columns: 200px 1fr;
             gap: 8px;
             margin-bottom: 12px;
             align-items: end;
         }
-.box-aduana {
+     .box-aduana {
             background: #fce7f3;
             padding: 12px;
             border-radius: 8px;
             border: 1px solid #f9a8d4;
             margin-bottom: 12px;
         }
-.box-cif {
+     .box-cif {
             background: #fbcfe8;
             padding: 16px;
             border-radius: 8px;
             border: 2px solid #f472b6;
             margin-bottom: 12px;
         }
-.box-final-usd {
+     .box-final-usd {
             background: #f9a8d4;
             padding: 16px;
             border-radius: 8px;
             border: 3px solid #ec4899;
             margin-bottom: 12px;
         }
-.box-final-usd input {
+     .box-final-usd input {
             height: 45px;
             font-size: 18px;
         }
-.box-bs {
+     .box-bs {
             background: #e0f2fe;
             padding: 16px;
             border-radius: 8px;
             border: 2px solid #7dd3fc;
             margin-bottom: 12px;
         }
-.box-ars {
+     .box-ars {
             background: #dcfce7;
             padding: 16px;
             border-radius: 8px;
             border: 2px solid #86efac;
             margin-bottom: 12px;
         }
+     .box-venta {
+            background: #fef3c7;
+            padding: 16px;
+            border-radius: 8px;
+            border: 2px solid #fcd34d;
+            margin-bottom: 12px;
+        }
         #imgPreview {
             width: 100%;
+            max-width: 300px;
             aspect-ratio: 1 / 1;
             object-fit: cover;
             border: 2px solid #fbcfe8;
@@ -177,10 +204,50 @@
             display: block;
             margin: 0 auto 12px auto;
         }
-.hidden { display: none; }
-.divider {
+     .hidden { display: none; }
+     .divider {
             border-top: 3px solid #f9a8d4;
             margin: 24px 0;
+        }
+     .tabla-productos {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            font-size: 12px;
+        }
+     .tabla-productos th,.tabla-productos td {
+            border: 1px solid #fbcfe8;
+            padding: 8px;
+            text-align: left;
+        }
+     .tabla-productos th {
+            background: #fce7f3;
+            font-weight: bold;
+        }
+     .tabla-productos tr:hover {
+            background: #fdf2f8;
+        }
+     .acciones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        @media (max-width: 768px) {
+         .grid-4 {
+                grid-template-columns: 1fr 1fr;
+            }
+         .grid-3 {
+                grid-template-columns: 1fr;
+            }
+         .grid-hs {
+                grid-template-columns: 1fr;
+            }
+            body {
+                padding: 12px;
+            }
+         .tabla-productos {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
@@ -216,7 +283,7 @@
                 <div class="mini-label">Largo cm</div>
                 <div class="mini-label">Ancho cm</div>
                 <div class="mini-label">Alto cm</div>
-                <div class="label-rosa">Total de piezas por metro cúbico</div>
+                <div class="label-rosa">Piezas por m³</div>
                 <input id="largo_cm" type="text" placeholder="0,0" oninput="sincronizarMedida('largo', 'cm'); guardarDato('largo_cm')">
                 <input id="ancho_cm" type="text" placeholder="0,0" oninput="sincronizarMedida('ancho', 'cm'); guardarDato('ancho_cm')">
                 <input id="alto_cm" type="text" placeholder="0,0" oninput="sincronizarMedida('alto', 'cm'); guardarDato('alto_cm')">
@@ -228,7 +295,7 @@
                 <div class="mini-label">Largo mm</div>
                 <div class="mini-label">Ancho mm</div>
                 <div class="mini-label">Alto mm</div>
-                <div class="label-rosa">Total de piezas por metro cúbico</div>
+                <div class="label-rosa">Piezas por m³</div>
                 <input id="largo_mm" type="text" placeholder="0" oninput="sincronizarMedida('largo', 'mm'); guardarDato('largo_mm')">
                 <input id="ancho_mm" type="text" placeholder="0" oninput="sincronizarMedida('ancho', 'mm'); guardarDato('ancho_mm')">
                 <input id="alto_mm" type="text" placeholder="0" oninput="sincronizarMedida('alto', 'mm'); guardarDato('alto_mm')">
@@ -349,19 +416,37 @@
                 </div>
             </div>
 
-            <button>Guardar</button>
+            <div class="box-venta">
+                <label>Precio de Venta Sugerido</label>
+                <div class="grid-3">
+                    <div class="mini-label">Margen Ganancia %</div>
+                    <div class="mini-label">Precio Venta USD</div>
+                    <div class="mini-label">Precio Venta Bs</div>
+                    <input id="margen" type="text" value="40,00" oninput="calcularVenta(); guardarDato('margen')" onblur="formatearMoneda('margen')">
+                    <input id="precio_venta_usd" type="text" placeholder="0,00" readonly>
+                    <input id="precio_venta_bs" type="text" placeholder="0,00" readonly>
+                </div>
+            </div>
+
+            <div class="acciones">
+                <button onclick="guardarProducto()">Guardar Producto</button>
+                <button class="btn-verde" onclick="copiarWhatsApp()">Copiar para WhatsApp</button>
+                <button class="btn-azul" onclick="exportarCSV()">Exportar CSV</button>
+                <button class="btn-secundario" onclick="limpiarTodo()">Limpiar Todo</button>
+                <button class="btn-secundario" onclick="window.print()">Imprimir / PDF</button>
+            </div>
         </div>
 
         <div class="card">
-            <h2>2. Resultados</h2>
-            <p style="color: #6b7280;">Aquí van a aparecer los cálculos</p>
+            <h2>2. Productos Guardados</h2>
+            <div id="lista-productos"></div>
         </div>
     </div>
 
     <script>
         let editando = false;
         const TIPO_CAMBIO = 7.2;
-        const CAMPOS_MEMORIA = ['foto', 'nombre', 'link', 'detalles', 'largo_cm', 'ancho_cm', 'alto_cm', 'largo_mm', 'ancho_mm', 'alto_mm', 'hs_code', 'detalle_aduana', 'precio_final', 'precio_base', 'peso_gr', 'peso_kg', 'precio_yuan', 'precio_usd', 'cantidad', 'flete_m3', 'dolar_bs', 'dolar_ars'];
+        const CAMPOS_MEMORIA = ['foto', 'nombre', 'link', 'detalles', 'largo_cm', 'ancho_cm', 'alto_cm', 'largo_mm', 'ancho_mm', 'alto_mm', 'hs_code', 'detalle_aduana', 'precio_final', 'precio_base', 'peso_gr', 'peso_kg', 'precio_yuan', 'precio_usd', 'cantidad', 'flete_m3', 'dolar_bs', 'dolar_ars', 'margen'];
 
         function parsearMoneda(valor) {
             if (!valor) return 0;
@@ -383,6 +468,8 @@
             calcularEnvioPieza();
             calcularBs();
             calcularARS();
+            calcularVenta();
+            mostrarProductos();
         };
 
         function guardarDato(id) {
@@ -400,6 +487,11 @@
                 img.classList.remove('hidden');
                 containerFoto.classList.add('hidden');
                 btnCambiar.classList.remove('hidden');
+                img.onerror = () => {
+                    img.classList.add('hidden');
+                    containerFoto.classList.remove('hidden');
+                    btnCambiar.classList.add('hidden');
+                }
             } else {
                 img.classList.add('hidden');
                 containerFoto.classList.remove('hidden');
@@ -556,19 +648,11 @@
 
                 calcularBs();
                 calcularARS();
+                calcularVenta();
             } else {
-                document.getElementById('flete_unitario').value = '';
-                document.getElementById('precio_articulo_cif').value = '';
-                document.getElementById('seguro').value = '';
-                document.getElementById('valor_cif').value = '';
-                document.getElementById('gravamen').value = '';
-                document.getElementById('iva').value = '';
-                document.getElementById('total_impuestos').value = '';
-                document.getElementById('costo_final_bolivia').value = '';
-                document.getElementById('costo_final_bs').value = '';
-                document.getElementById('costo_final_ars').value = '';
-                document.getElementById('costo_docena_bs').value = '';
-                document.getElementById('costo_docena_ars').value = '';
+                ['flete_unitario', 'precio_articulo_cif', 'seguro', 'valor_cif', 'gravamen', 'iva', 'total_impuestos', 'costo_final_bolivia', 'costo_final_bs', 'costo_final_ars', 'costo_docena_bs', 'costo_docena_ars', 'precio_venta_usd', 'precio_venta_bs'].forEach(id => {
+                    document.getElementById(id).value = '';
+                });
             }
         }
 
@@ -584,6 +668,7 @@
                 document.getElementById('costo_final_bs').value = '';
                 document.getElementById('costo_docena_bs').value = '';
             }
+            calcularVenta();
         }
 
         function calcularARS() {
@@ -599,6 +684,102 @@
                 document.getElementById('costo_docena_ars').value = '';
             }
         }
-    </script>
-</body>
-</html>
+
+        function calcularVenta() {
+            const costoUsd = parsearMoneda(document.getElementById('costo_final_bolivia').value);
+            const margen = parsearMoneda(document.getElementById('margen').value);
+            const dolarBs = parsearMoneda(document.getElementById('dolar_bs').value);
+
+            if (costoUsd > 0 && margen > 0) {
+                const precioVentaUsd = costoUsd * (1 + margen / 100);
+                document.getElementById('precio_venta_usd').value = precioVentaUsd.toFixed(2).replace('.', ',');
+                if (dolarBs > 0) {
+                    document.getElementById('precio_venta_bs').value = (precioVentaUsd * dolarBs).toFixed(2).replace('.', ',');
+                }
+            } else {
+                document.getElementById('precio_venta_usd').value = '';
+                document.getElementById('precio_venta_bs').value = '';
+            }
+        }
+
+        function guardarProducto() {
+            const nombre = document.getElementById('nombre').value;
+            if (!nombre) {
+                alert('Ponle un nombre al producto primero');
+                return;
+            }
+            const productos = JSON.parse(localStorage.getItem('anitas_productos') || '[]');
+            const datos = {};
+            CAMPOS_MEMORIA.forEach(campo => {
+                datos[campo] = document.getElementById(campo).value;
+            });
+            datos.costo_final_usd = document.getElementById('costo_final_bolivia').value;
+            datos.costo_final_bs = document.getElementById('costo_final_bs').value;
+            datos.precio_venta_bs = document.getElementById('precio_venta_bs').value;
+            datos.fecha = new Date().toLocaleString('es-BO');
+
+            productos.push(datos);
+            localStorage.setItem('anitas_productos', JSON.stringify(productos));
+            mostrarProductos();
+            alert('Producto guardado!');
+        }
+
+        function mostrarProductos() {
+            const productos = JSON.parse(localStorage.getItem('anitas_productos') || '[]');
+            const contenedor = document.getElementById('lista-productos');
+
+            if (productos.length === 0) {
+                contenedor.innerHTML = '<p style="color: #6b7280;">No hay productos guardados todavía</p>';
+                return;
+            }
+
+            let html = '<table class="tabla-productos"><thead><tr><th>Producto</th><th>Costo USD</th><th>Costo Bs</th><th>Venta Bs</th><th>Fecha</th><th>Acción</th></tr></thead><tbody>';
+            productos.forEach((p, i) => {
+                html += `<tr>
+                    <td>${p.nombre || '-'}</td>
+                    <td>$${p.costo_final_usd || '0'}</td>
+                    <td>Bs ${p.costo_final_bs || '0'}</td>
+                    <td>Bs ${p.precio_venta_bs || '0'}</td>
+                    <td>${p.fecha}</td>
+                    <td><button class="btn-secundario" onclick="cargarProducto(${i})">Cargar</button> <button class="btn-secundario" onclick="borrarProducto(${i})">Borrar</button></td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+            contenedor.innerHTML = html;
+        }
+
+        function cargarProducto(index) {
+            const productos = JSON.parse(localStorage.getItem('anitas_productos') || '[]');
+            const p = productos[index];
+            Object.keys(p).forEach(key => {
+                if (document.getElementById(key)) {
+                    document.getElementById(key).value = p[key];
+                }
+            });
+            mostrarFoto();
+            calcularEnvioPieza();
+            window.scrollTo(0, 0);
+        }
+
+        function borrarProducto(index) {
+            if (confirm('¿Seguro que quieres borrar este producto?')) {
+                const productos = JSON.parse(localStorage.getItem('anitas_productos') || '[]');
+                productos.splice(index, 1);
+                localStorage.setItem('anitas_productos', JSON.stringify(productos));
+                mostrarProductos();
+            }
+        }
+
+        function copiarWhatsApp() {
+            const nombre = document.getElementById('nombre').value;
+            const costo = document.getElementById('costo_final_bolivia').value;
+            const costoBs = document.getElementById('costo_final_bs').value;
+            const ventaBs = document.getElementById('precio_venta_bs').value;
+            const link = document.getElementById('link').value;
+
+            if (!nombre) {
+                alert('Completa al menos el nombre del producto');
+                return;
+            }
+
+            const texto = `*ANITAS STORE*\n\n📦 ${nombre}\n💵 Costo: $${costo} USD\n💰 Costo Bs: ${costoBs}\n🏷️ Precio venta: Bs ${ventaBs}\n${link? `\n🔗 ${link}` :
