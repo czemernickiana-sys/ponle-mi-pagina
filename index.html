@@ -642,41 +642,55 @@
         }
 
         function exportarExcel() {
-            let csv = 'Campo,Valor\n';
-            const etiquetas = {
-                'nombre': 'Nombre producto',
-                'link': 'Link 1688/Taobao',
-                'detalles': 'Detalles',
-                'largo_cm': 'Largo cm',
-                'ancho_cm': 'Ancho cm',
-                'alto_cm': 'Alto cm',
-                'caben_cm': 'Piezas por m³',
-                'hs_code': 'HS CODE',
-                'precio_yuan': 'Precio Yuanes',
-                'precio_usd': 'Precio USD',
-                'costo_envio_pieza': 'Costo Envío Pieza',
-                'costo_total_pieza': 'Costo Total Pieza',
-                'costo_final_bolivia': 'Costo Final USD',
-                'costo_final_bs': 'Costo Bs',
-                'costo_docena_bs': 'Costo Docena Bs',
-                'costo_final_ars': 'Costo ARS',
-                'costo_docena_ars': 'Costo Docena ARS'
-            };
+    const nombre = document.getElementById('nombre').value || 'Sin nombre';
+    const fecha = new Date().toLocaleDateString('es-BO');
+    
+    let csv = `ANITAS STORE - FICHA DE PRODUCTO\n`;
+    csv += `Fecha: ${fecha}\n\n`;
+    
+    csv += `DATOS GENERALES\n`;
+    csv += `Producto,${nombre}\n`;
+    csv += `Link,${document.getElementById('link').value}\n`;
+    csv += `Detalles,"${document.getElementById('detalles').value}"\n`;
+    csv += `HS Code,${document.getElementById('hs_code').value}\n\n`;
+    
+    csv += `MEDIDAS Y VOLUMEN\n`;
+    csv += `Largo cm,${document.getElementById('largo_cm').value}\n`;
+    csv += `Ancho cm,${document.getElementById('ancho_cm').value}\n`;
+    csv += `Alto cm,${document.getElementById('alto_cm').value}\n`;
+    csv += `Piezas por m3,${document.getElementById('caben_cm').value}\n`;
+    csv += `Peso kg,${document.getElementById('peso_kg').value}\n\n`;
+    
+    csv += `COSTOS PRODUCTO\n`;
+    csv += `Precio Yuanes,${document.getElementById('precio_yuan').value}\n`;
+    csv += `Precio USD,${document.getElementById('precio_usd').value}\n`;
+    csv += `Costo Envio por Pieza USD,${document.getElementById('costo_envio_pieza').value}\n`;
+    csv += `Costo Total por Pieza USD,${document.getElementById('costo_total_pieza').value}\n\n`;
+    
+    csv += `CIF E IMPUESTOS\n`;
+    csv += `Flete m3 USD,${document.getElementById('flete_m3').value}\n`;
+    csv += `Flete Unitario USD,${document.getElementById('flete_unitario').value}\n`;
+    csv += `Seguro 2% USD,${document.getElementById('seguro').value}\n`;
+    csv += `Valor CIF USD,${document.getElementById('valor_cif').value}\n`;
+    csv += `Gravamen 10% USD,${document.getElementById('gravamen').value}\n`;
+    csv += `IVA 14.94% USD,${document.getElementById('iva').value}\n`;
+    csv += `Total Impuestos USD,${document.getElementById('total_impuestos').value}\n\n`;
+    
+    csv += `COSTOS FINALES\n`;
+    csv += `COSTO FINAL USD,${document.getElementById('costo_final_bolivia').value}\n`;
+    csv += `Tipo Cambio Bs,${document.getElementById('dolar_bs').value}\n`;
+    csv += `COSTO FINAL Bs,${document.getElementById('costo_final_bs').value}\n`;
+    csv += `COSTO DOCENA Bs,${document.getElementById('costo_docena_bs').value}\n`;
+    csv += `Tipo Cambio ARS,${document.getElementById('dolar_ars').value}\n`;
+    csv += `COSTO FINAL ARS,${document.getElementById('costo_final_ars').value}\n`;
+    csv += `COSTO DOCENA ARS,${document.getElementById('costo_docena_ars').value}\n`;
 
-            for (let id in etiquetas) {
-                const elem = document.getElementById(id);
-                if (elem) {
-                    csv += `"${etiquetas[id]}","${elem.value}"\n`;
-                }
-            }
-
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            const nombre = document.getElementById('nombre').value || 'producto';
-            link.href = URL.createObjectURL(blob);
-            link.download = `ANITAS_${nombre.replace(/[^a-z0-9]/gi, '_')}.csv`;
-            link.click();
-        }
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `ANITAS_${nombre.replace(/[^a-z0-9]/gi, '_')}_${fecha.replace(/\//g, '-')}.csv`;
+    link.click();
+}
     </script>
 </body>
 </html>
