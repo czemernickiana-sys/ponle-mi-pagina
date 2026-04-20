@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANITAS STORE - Calculadora de Importación</title>
-    <meta name="description" content="Calculadora de costos de importación para Anitas Store">
+    <title>ANITAS STORE</title>
     <style>
         * {
             box-sizing: border-box;
-            font-family: system-ui, -apple-system, Arial, sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
@@ -16,22 +15,22 @@
             background: #fff1f2;
             padding: 20px;
         }
-    .container {
+.container {
             max-width: 1200px;
             margin: 0 auto;
         }
-    .card {
+.card {
             background: white;
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             border: 1px solid #fbcfe8;
         }
         h1 {
             color: #db2777;
             text-align: center;
-            font-size: clamp(32px, 8vw, 48px);
+            font-size: 48px;
             margin-bottom: 20px;
         }
         h2 {
@@ -46,14 +45,14 @@
             margin-bottom: 4px;
             font-weight: 500;
         }
-    .mini-label {
-            font-size: 11px;
+.mini-label {
+            font-size: 12px;
             font-weight: bold;
             color: #374151;
             text-align: center;
             margin-bottom: 4px;
         }
-    .label-rosa {
+.label-rosa {
             color: #db2777;
             font-weight: bold;
             font-size: 12px;
@@ -67,16 +66,13 @@
             border-radius: 6px;
             margin-bottom: 12px;
             height: 38px;
-            font-size: 14px;
         }
         textarea {
             height: auto;
-            resize: vertical;
         }
         input:focus, textarea:focus {
             outline: none;
             border-color: #ec4899;
-            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
         }
         input[readonly] {
             background: #fdf2f8;
@@ -93,101 +89,100 @@
             font-weight: bold;
             margin-right: 8px;
             margin-bottom: 8px;
-            transition: all 0.2s;
         }
         button:hover {
             background: #db2777;
-            transform: translateY(-1px);
         }
-    .btn-secundario {
+.btn-secundario {
             background: #f9a8d4;
             color: #831843;
             font-size: 12px;
             padding: 6px 12px;
+            margin-bottom: 12px;
         }
-    .btn-secundario:hover {
+  .btn-secundario:hover {
             background: #f472b6;
         }
-    .btn-verde {
+  .btn-verde {
             background: #10b981;
         }
-    .btn-verde:hover {
+  .btn-verde:hover {
             background: #059669;
         }
-    .btn-azul {
+  .btn-azul {
             background: #3b82f6;
         }
-    .btn-azul:hover {
+  .btn-azul:hover {
             background: #2563eb;
         }
-    .grid-4 {
+.grid-4 {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: 1fr 1fr 1fr 1fr;
             gap: 8px;
             margin-bottom: 12px;
             align-items: end;
         }
-    .grid-2 {
+.grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
             margin-bottom: 12px;
             align-items: end;
         }
-    .grid-3 {
+.grid-3 {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 8px;
             margin-bottom: 12px;
             align-items: end;
         }
-    .grid-hs {
+.grid-hs {
             display: grid;
             grid-template-columns: 200px 1fr;
             gap: 8px;
             margin-bottom: 12px;
             align-items: end;
         }
-    .box-aduana {
+.box-aduana {
             background: #fce7f3;
             padding: 12px;
             border-radius: 8px;
             border: 1px solid #f9a8d4;
             margin-bottom: 12px;
         }
-    .box-cif {
+.box-cif {
             background: #fbcfe8;
             padding: 16px;
             border-radius: 8px;
             border: 2px solid #f472b6;
             margin-bottom: 12px;
         }
-    .box-final-usd {
+.box-final-usd {
             background: #f9a8d4;
             padding: 16px;
             border-radius: 8px;
             border: 3px solid #ec4899;
             margin-bottom: 12px;
         }
-    .box-final-usd input {
+.box-final-usd input {
             height: 45px;
             font-size: 18px;
         }
-    .box-bs {
+.box-bs {
             background: #e0f2fe;
             padding: 16px;
             border-radius: 8px;
             border: 2px solid #7dd3fc;
             margin-bottom: 12px;
         }
-    .box-ars {
+.box-ars {
             background: #dcfce7;
             padding: 16px;
             border-radius: 8px;
             border: 2px solid #86efac;
             margin-bottom: 12px;
         }
-    .box-venta {
+  .box-venta {
             background: #fef3c7;
             padding: 16px;
             border-radius: 8px;
@@ -203,48 +198,48 @@
             display: block;
             margin: 0 auto 12px auto;
         }
-    .hidden { display: none; }
-    .divider {
+.hidden { display: none; }
+.divider {
             border-top: 3px solid #f9a8d4;
             margin: 24px 0;
         }
-    .tabla-productos {
+  .tabla-productos {
             width: 100%;
             border-collapse: collapse;
             margin-top: 12px;
             font-size: 12px;
         }
-    .tabla-productos th,.tabla-productos td {
+  .tabla-productos th,.tabla-productos td {
             border: 1px solid #fbcfe8;
             padding: 8px;
             text-align: left;
         }
-    .tabla-productos th {
+  .tabla-productos th {
             background: #fce7f3;
             font-weight: bold;
         }
-    .tabla-productos tr:hover {
+  .tabla-productos tr:hover {
             background: #fdf2f8;
         }
-    .acciones {
+  .acciones {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
         }
         @media (max-width: 768px) {
-        .grid-4 {
+      .grid-4 {
                 grid-template-columns: 1fr 1fr;
             }
-        .grid-3 {
+      .grid-3 {
                 grid-template-columns: 1fr;
             }
-        .grid-hs {
+      .grid-hs {
                 grid-template-columns: 1fr;
             }
             body {
                 padding: 12px;
             }
-        .tabla-productos {
+      .tabla-productos {
                 font-size: 10px;
             }
         }
@@ -282,7 +277,7 @@
                 <div class="mini-label">Largo cm</div>
                 <div class="mini-label">Ancho cm</div>
                 <div class="mini-label">Alto cm</div>
-                <div class="label-rosa">Piezas por m³</div>
+                <div class="label-rosa">Total de piezas por metro cúbico</div>
                 <input id="largo_cm" type="text" placeholder="0,0" oninput="sincronizarMedida('largo', 'cm'); guardarDato('largo_cm')">
                 <input id="ancho_cm" type="text" placeholder="0,0" oninput="sincronizarMedida('ancho', 'cm'); guardarDato('ancho_cm')">
                 <input id="alto_cm" type="text" placeholder="0,0" oninput="sincronizarMedida('alto', 'cm'); guardarDato('alto_cm')">
@@ -294,7 +289,7 @@
                 <div class="mini-label">Largo mm</div>
                 <div class="mini-label">Ancho mm</div>
                 <div class="mini-label">Alto mm</div>
-                <div class="label-rosa">Piezas por m³</div>
+                <div class="label-rosa">Total de piezas por metro cúbico</div>
                 <input id="largo_mm" type="text" placeholder="0" oninput="sincronizarMedida('largo', 'mm'); guardarDato('largo_mm')">
                 <input id="ancho_mm" type="text" placeholder="0" oninput="sincronizarMedida('ancho', 'mm'); guardarDato('ancho_mm')">
                 <input id="alto_mm" type="text" placeholder="0" oninput="sincronizarMedida('alto', 'mm'); guardarDato('alto_mm')">
@@ -774,4 +769,19 @@
             const costo = document.getElementById('costo_final_bolivia').value;
             const costoBs = document.getElementById('costo_final_bs').value;
             const ventaBs = document.getElementById('precio_venta_bs').value;
-            const link = document.getElementById
+            const link = document.getElementById('link').value;
+            const detalles = document.getElementById('detalles').value;
+
+            if (!nombre) {
+                alert('Completa al menos el nombre del producto');
+                return;
+            }
+
+            const texto = `*ANITAS STORE*\n\n📦 ${nombre}\n${detalles? `📝 ${detalles}\n` : ''}💵 Costo: $${costo} USD\n💰 Costo Bs: ${costoBs}\n🏷️ Precio venta: Bs ${ventaBs}\n${link? `\n🔗 ${link}` : ''}`;
+
+            navigator.clipboard.writeText(texto).then(() => {
+                alert('Texto copiado! Pégalo en WhatsApp');
+            });
+        }
+
+        function exportarCSV() {
